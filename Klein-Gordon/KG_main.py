@@ -54,7 +54,7 @@ for i in range(Alpha.shape[0]):
 kg_training = np.array(kg_training)
 
 train_final_gpt = True
-number_of_neurons = 10
+number_of_neurons = 15
 loss_list = np.ones(number_of_neurons) # Store largest losses
 
 print(f"Expected Final GPT-PINN Depth: {[2,number_of_neurons,1]}\n")
@@ -77,12 +77,12 @@ P_list            = np.ones(number_of_neurons, dtype=object)
 network_gradients = np.ones(number_of_neurons, dtype=object)
 
 lr_pinn     = 0.0005
-epochs_pinn = 500
+epochs_pinn = 75000
 
 layers_pinn = np.array([2, 40, 40, 1])
 
 lr_gpt     = 0.025
-epochs_gpt = 20
+epochs_gpt = 2000
 
 # Save Data/Plot Options
 save_data         = False
