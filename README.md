@@ -24,8 +24,10 @@ Combinations of different package versions (recent ones) will most likely be abl
 ## GPU and CPU Support:
 The code was implemented with the intension of compution to be primarily preformed on the GPU. CPU computation can be done however, it will take much longer. 
 
-## Future Work:
-We plan on modifying and updating the code to make it more cost-effective.
+## Future and Current Work:
+Currently the Klein-Gordon equation files are avaliable to be used. Running the `KG_main.py` (with the other files in the folder located in the same directory) will begin the training of the full PINN and GPT-PINN, growing the GPT-PINN hidden layer size from 1 to 15. 
+
+Code for the Burgers equation and Allen-Cahn equation will be uploaded in the near future. We plan on modifying and updating the code over time to make it more cost-effective and efficient.
 
 ## Citation:
 Below you can find the Bibtex citation:
