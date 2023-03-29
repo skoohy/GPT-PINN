@@ -29,6 +29,8 @@ Currently the Klein-Gordon equation files are avaliable to be used. Running the 
 
 Code for the Burgers equation and Allen-Cahn equation will be uploaded in the near future. We plan on modifying and updating the code over time to make it more cost-effective and efficient.
 
+![Image 1](Klein-Gordon/KG_time.png)
+
 ## Citation:
 Below you can find the Bibtex citation:
 ```
