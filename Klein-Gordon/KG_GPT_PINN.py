@@ -61,9 +61,12 @@ class GPT(nn.Module):
 
         cP_tt = torch.matmul(self.P_tt_term, self.linears[1].weight.data[0][:,None])
         cP_xx = torch.matmul(self.P_xx_term, self.linears[1].weight.data[0][:,None])
-        
-        f = cP_tt + (self.alpha)*cP_xx + (self.beta)*(u) + (self.gamma)*(u**2) + self.xcos_x2cos2_term
 
+        #f = cP_tt + (self.alpha)*cP_xx + (self.beta)*(u) + (self.gamma)*(u**2) + self.xcos_x2cos2_term
+        f1 = torch.add(cP_tt, self.alpha*cP_xx)
+        f2 = torch.add(self.beta*u, self.gamma*torch.square(u))
+        f = torch.add(torch.add(f1, f2), self.xcos_x2cos2_term)
+        
         return self.loss_function(f, self.f_hat)
     
     def lossIC1BC(self, datatype):

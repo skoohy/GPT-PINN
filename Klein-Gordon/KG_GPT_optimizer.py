@@ -50,13 +50,14 @@ class grad_descent(object):
         term1 = torch.matmul(term, c[:,None])
         
         term2 = torch.matmul(self.P_resid_values, c[:,None])
-        
-        first_product = term1 + self.gamma*(term2**2) + self.xcos_x2cos2_term
+    
+        first_product = torch.add(torch.add(term1, self.gamma*torch.square(term2)), self.xcos_x2cos2_term)
         
         term5 = torch.mul(term2, self.gamm2_P_term)
-        second_product = self.Ptt_aPxx_bP_term + term5
         
-        grad_list[:c.shape[0]] = (2/self.N_R)*torch.sum(first_product*second_product, axis=0)
+        second_product = torch.add(self.Ptt_aPxx_bP_term, term5)
+        
+        grad_list[:c.shape[0]] = (2/self.N_R)*torch.sum(torch.mul(first_product,second_product), axis=0)
         
         #######################################################################
         #######################################################################        
@@ -65,8 +66,8 @@ class grad_descent(object):
         BC_term  = torch.matmul(self.P_BC_values, c[:,None])
         IC1_term = torch.matmul(self.P_IC_values, c[:,None])
         
-        BC_term  -= self.BC_u
-        IC1_term -= self.IC_u1
+        BC_term  = torch.sub(BC_term,  self.BC_u)
+        IC1_term = torch.sub(IC1_term, self.IC_u1)
         
         grad_list[:c.shape[0]] += (2/self.N_BC)*torch.sum(torch.mul(BC_term, self.P_BC_values), axis=0)
         grad_list[:c.shape[0]] += (2/self.N_IC)*torch.sum(torch.mul(IC1_term, self.P_IC_values), axis=0)
