@@ -25,7 +25,7 @@ def KG_plot(xt, u, scale=150, cmap="rainbow", title=None,
     ax.tick_params(axis='both', which='minor', labelsize=22.5)
     
     if title is not None:
-        ax.set_title(title, fontsize=25)
+        ax.set_title(title, fontsize=20)
         
     plt.show()
 

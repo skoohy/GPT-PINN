@@ -22,7 +22,7 @@ def pinn_train(PINN, alpha, beta, gamma, xt_resid, IC_xt, IC_u1, IC_u2, BC_xt, B
             if (i % 10000 == 0) or (i == epochs_pinn):
                 print(f'Epoch: {i} | loss: {loss_values.item()}')
                 if (i == epochs_pinn):
-                    print("Full PINN Training Completed")
+                    print("PINN Training Completed\n")
                     
     return losses, ep
     

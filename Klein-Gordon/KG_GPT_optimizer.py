@@ -6,8 +6,7 @@ class grad_descent(object):
     def __init__(self, alpha, beta, gamma, xt_resid, IC_xt, BC_xt, IC_u1, IC_u2,
                  BC_u, xcos_x2cos2_term, Ptt_aPxx_bP_term, alpha_P_xx_term, beta_P_term, 
                  gamm2_P_term, P_resid_values, P_IC_values, P_BC_values, 
-                 Pi_t_term, lr_gpt, network_gradients):
-        
+                 Pi_t_term, P_xx_term, P_tt_term, epochs_gpt, lr_gpt):
         # PDE parameters
         self.alpha = alpha
         self.beta  = beta
@@ -19,16 +18,17 @@ class grad_descent(object):
         self.N_BC = BC_xt.shape[0]
         
         # Pre-computed terms
-        self.network_gradients = network_gradients
         self.P_resid_values    = P_resid_values
         self.P_BC_values       = P_BC_values
         self.P_IC_values       = P_IC_values
         self.Pi_t_term         = Pi_t_term
         self.xcos_x2cos2_term  = xcos_x2cos2_term.to(device)
-        self.Ptt_aPxx_bP_term   = Ptt_aPxx_bP_term
+        self.Ptt_aPxx_bP_term  = Ptt_aPxx_bP_term
         self.alpha_P_xx_term   = alpha_P_xx_term
         self.beta_P_term       = beta_P_term
         self.gamm2_P_term      = gamm2_P_term
+        self.P_xx_term         = P_xx_term
+        self.P_tt_term         = P_tt_term
 
         # Training Solutions
         self.IC_u1 = IC_u1
@@ -40,58 +40,44 @@ class grad_descent(object):
 
     def grad_loss(self, c):
         c = c.to(device)
-        grad_list = torch.ones(c.shape[0]).to(device)
+        grad_list = torch.zeros(c.shape[0]).to(device)
+
         #######################################################################
         #######################################################################        
         #########################  Residual Gradient  #########################
-        term1 = 0
-        term2 = 0
-        term5 = 0
 
-        for i in range(c.shape[0]):
-            P_tt = self.network_gradients[i][1]
-            a_P_xx = self.alpha_P_xx_term[i]
-            b_P = self.beta_P_term[i]
-
-            term1 += c[i]*P_tt + c[i]*a_P_xx + c[i]*b_P
-            term2 += c[i]*self.P_resid_values[:,i][:,None]
-            
-        first_product = (term1 + self.gamma*(term2**2) + self.xcos_x2cos2_term)
-                
-        for m in range(c.shape[0]):
-            term5 = term2*self.gamm2_P_term[m]
-            second_product = self.Ptt_aPxx_bP_term[m] + term5
-            
-            gradient = (2/self.N_R)*torch.sum(first_product*second_product)
-            grad_list[m] = gradient.item()
-
+        term  = self.P_tt_term + self.alpha_P_xx_term + self.beta_P_term
+        term1 = torch.matmul(term, c[:,None])
+        
+        term2 = torch.matmul(self.P_resid_values, c[:,None])
+        
+        first_product = term1 + self.gamma*(term2**2) + self.xcos_x2cos2_term
+        
+        term5 = torch.mul(term2, self.gamm2_P_term)
+        second_product = self.Ptt_aPxx_bP_term + term5
+        
+        grad_list[:c.shape[0]] = (2/self.N_R)*torch.sum(first_product*second_product, axis=0)
+        
         #######################################################################
         #######################################################################        
         ##################  Boundary and Initial 1 Gradient  ##################
-        BC_term  = 0
-        IC1_term = 0 
-                
-        for i in range(c.shape[0]):
-            BC_term += c[i]*self.P_BC_values[:,i][:,None]
-            IC1_term += c[i]*self.P_IC_values[:,i][:,None]
+        
+        BC_term  = torch.matmul(self.P_BC_values, c[:,None])
+        IC1_term = torch.matmul(self.P_IC_values, c[:,None])
+        
         BC_term  -= self.BC_u
         IC1_term -= self.IC_u1
         
-        for m in range(c.shape[0]):
-            grad_list[m] += (2/self.N_BC)*torch.sum(BC_term*self.P_BC_values[:,m][:,None])
-            grad_list[m] += (2/self.N_IC)*torch.sum(IC1_term*self.P_IC_values[:,m][:,None])
-
+        grad_list[:c.shape[0]] += (2/self.N_BC)*torch.sum(torch.mul(BC_term, self.P_BC_values), axis=0)
+        grad_list[:c.shape[0]] += (2/self.N_IC)*torch.sum(torch.mul(IC1_term, self.P_IC_values), axis=0)
+        
         #######################################################################
         #######################################################################        
-        ########################  Initial 2 Gradient  ######################### 
-        IC2_term = 0
-        
-        for i in range(c.shape[0]):
-            IC2_term += c[i]*self.Pi_t_term[:,i][:,None]
+        ########################  Initial 2 Gradient  #########################         
+        IC2_term = torch.matmul(self.Pi_t_term, c[:,None])
                 
-        for m in range(c.shape[0]):
-            grad_list[m] += (2/self.N_IC)*torch.sum(IC2_term*self.Pi_t_term[:,m][:,None])
-            
+        grad_list[:c.shape[0]] += (2/self.N_IC)*torch.sum(torch.mul(IC2_term, self.Pi_t_term), axis=0)
+
         return grad_list
     
     def update(self, c):
