@@ -22,7 +22,7 @@ class grad_descent(object):
         self.P_BC_values       = P_BC_values
         self.P_IC_values       = P_IC_values
         self.Pi_t_term         = Pi_t_term
-        self.xcos_x2cos2_term  = xcos_x2cos2_term.to(device)
+        self.xcos_x2cos2_term  = xcos_x2cos2_term
         self.Ptt_aPxx_bP_term  = Ptt_aPxx_bP_term
         self.alpha_P_xx_term   = alpha_P_xx_term
         self.beta_P_term       = beta_P_term
