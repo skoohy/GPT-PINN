@@ -134,7 +134,7 @@ for i in range(0, number_of_neurons):
     print(f"\nCurrent GPT-PINN Depth: [2,{i+1},1]")
     
     if (save_data):        
-        path = fr"..\Full-PINN-Data (KG)\({kg_pinn_train})"
+        path = fr".\Full-PINN-Data (KG)\({kg_pinn_train})"
         
         if not os.path.exists(path):
             os.makedirs(path)
@@ -224,7 +224,8 @@ total_train_time_2 = time.perf_counter()
 
 ###############################################################################
 # Results of largest loss, parameters chosen, and times may vary based on
-# the initialization of full PINN and the final loss of the full PINN
+# the initialization of full PINN and the final loss of the full PINN, and
+# background processes
 print("******************************************************************")
 print("*** Full PINN and GPT-PINN Training Complete ***")
 print(f"Total Training Time: {(total_train_time_2-total_train_time_1)/3600} Hours\n")
@@ -304,5 +305,6 @@ for kg_test_param in kg_test: # Training the 200 GPT-PINNs on the 200 Test Cases
 #np.savetxt(".\incremental_test_times.txt", incremental_test_times)
 
 total_test_time_2 = time.perf_counter()
+print("\nGPT-PINN Testing Completed")
 print(f"\nTotal Testing Time: {(total_test_time_2-total_test_time_1)/3600} Hours")
 
