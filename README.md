@@ -1,4 +1,4 @@
-# Generative Pre-Trained Physics-Informed Neural Networks Implementation
+# Generative Pre-Trained Physics-Informed Neural Network Implementation
 
 ## GPT-PINN: Generative Pre-Trained Physics-Informed Neural Networks toward non-intrusive Meta-learning of parametric PDEs
 
