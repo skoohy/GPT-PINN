@@ -1,6 +1,5 @@
 import torch
 import torch.nn as nn
-import numpy as np
 torch.set_default_dtype(torch.float)
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
@@ -33,7 +32,7 @@ class GPT(nn.Module):
         self.xcos_x2cos2_term  = xcos_x2cos2_term
         
         self.linears[0].weight.data = torch.ones(self.layers[1], self.layers[0])
-        self.linears[1].weight.data = torch.Tensor(np.array([initial_c]))
+        self.linears[1].weight.data = initial_c
         
     def forward(self, datatype=None, test_data=None):
         if test_data is not None: # Test Data Forward Pass (if test data != resid data)
@@ -62,7 +61,6 @@ class GPT(nn.Module):
         cP_tt = torch.matmul(self.P_tt_term, self.linears[1].weight.data[0][:,None])
         cP_xx = torch.matmul(self.P_xx_term, self.linears[1].weight.data[0][:,None])
 
-        #f = cP_tt + (self.alpha)*cP_xx + (self.beta)*(u) + (self.gamma)*(u**2) + self.xcos_x2cos2_term
         f1 = torch.add(cP_tt, self.alpha*cP_xx)
         f2 = torch.add(self.beta*u, self.gamma*torch.square(u))
         f = torch.add(torch.add(f1, f2), self.xcos_x2cos2_term)

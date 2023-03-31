@@ -28,8 +28,7 @@ class NN(nn.Module):
         self.xcos_x2cos2_term = xcos_x2cos2_term
         
         for i in range(len(layers)-1):
-            nn.init.xavier_uniform_(self.linears[i].weight.data, gain=1)
-            #nn.init.xavier_normal_(self.linears[i].weight.data, gain=1)
+            nn.init.xavier_normal_(self.linears[i].weight.data, gain=1)
             nn.init.zeros_(self.linears[i].bias.data)  
     
         self.activation = custom_cos()
@@ -52,8 +51,11 @@ class NN(nn.Module):
     
         u_xx = u_xx_tt[:,[0]] 
         u_tt = u_xx_tt[:,[1]] 
-                        
-        f = u_tt + (self.alpha)*u_xx + (self.beta)*(u) + (self.gamma)*(u**2) + self.xcos_x2cos2_term
+        
+        f1 = torch.add(u_tt, self.alpha*u_xx)
+        f2 = torch.add(self.beta*u, self.gamma*torch.square(u))
+        f = torch.add(torch.add(f1, f2), self.xcos_x2cos2_term)
+        
         return self.loss_function(f, f_hat)
     
     def lossIC1BC(self, ICBC_xt, ICBC_u):

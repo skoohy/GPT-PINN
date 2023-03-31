@@ -79,7 +79,7 @@ kg_neurons[0] = [-1.5, 0.5, 0.5]
 P_list = np.ones(number_of_neurons, dtype=object)
 
 lr_pinn     = 0.0005
-epochs_pinn = 75000
+epochs_pinn = 7500
 
 layers_pinn = np.array([2, 40, 40, 1])
 
@@ -161,13 +161,12 @@ for i in range(0, number_of_neurons):
         loss_plot(epochs, loss_vals, title=fr"PINN Losses $\alpha={round(alpha,3)}, \beta={round(beta,3)}, \gamma={round(gamma,3)}$")
 
 
-    pinn_train_times[i] = (pinn_train_time_2-pinn_train_time_1)/3600
-    if (i == number_of_neurons) and (train_final_gpt == False):
+    if (i == number_of_neurons-1) and (train_final_gpt == False):
         break
         
     ############################ GPT-PINN Training ############################    
     layers_gpt = np.array([2, i+1, 1])
-    c_initial  = np.full(i+1, 1/(i+1))
+    c_initial  = torch.full((1,i+1), 1/(i+1))
     P_xx, P_tt = autograd_calculations(xt_resid, P_list[i])  
     
     P_xx_term[:,i][:,None] = P_xx
@@ -182,12 +181,12 @@ for i in range(0, number_of_neurons):
     largest_loss = 0
     
     if (i+1 == number_of_neurons):
-        print("\nBegin Final GPT-PINN Training (Largest Loss Training)")
+        print(f"\nBegin Final GPT-PINN Training (Finding Neuron {i+2} / Using {i+1} Neurons)")
     else:
         print(f"\nBegin GPT-PINN Training (Finding Neuron {i+2} / Using {i+1} Neurons)")
         
     gpt_train_time_1 = time.perf_counter()
-    for kg_param in kg_training:
+    for kg_param in kg_training[:6]:
         alpha, beta, gamma = kg_param[0], kg_param[1], kg_param[2]
         
         Ptt_aPxx_bP_term = Ptt_aPxx_bP(alpha, beta, P_tt_term[:,0:i+1], P_xx_term[:,0:i+1], P_resid_values[:,0:i+1])
@@ -213,44 +212,52 @@ for i in range(0, number_of_neurons):
     
     gpt_train_time_2 = time.perf_counter()
     print("GPT-PINN Training Completed")
-    print(f"GPT Training Time ({i+1} Neurons): {(gpt_train_time_2-gpt_train_time_1)/3600}  Hours")
+    print(f"\nGPT Training Time ({i+1} Neurons): {(gpt_train_time_2-gpt_train_time_1)/3600} Hours")
     
     loss_list[i] = largest_loss
     
     if (i+1 < number_of_neurons):
-        gpt_train_times[i] = (gpt_train_time_2-gpt_train_time_1)/3600
         kg_neurons[i+1] = largest_case
         
     print(f"\nLargest Loss (Using {i+1} Neurons): {largest_loss}")
     print(f"Parameter Case: {largest_case}")
 total_train_time_2 = time.perf_counter()
 
-
 ###############################################################################
-# Results of largest loss, parameters chosen, and time may vary based on
-# the initialization of full PINN parameters and the final loss of the full PINN
+# Results of largest loss, parameters chosen, and times may vary based on
+# the initialization of full PINN and the final loss of the full PINN
 print("******************************************************************")
 print("*** Full PINN and GPT-PINN Training Complete ***")
 print(f"Total Training Time: {(total_train_time_2-total_train_time_1)/3600} Hours\n")
 print(f"Final GPT-PINN Depth: {[2,len(P_list),1]}")
-print(f"Activation Function Parameters: \n{kg_neurons}\n")
+print(f"\nActivation Function Parameters: \n{kg_neurons}\n")
 
+for j in range(number_of_neurons-1):
+    print(f"Largest Loss of GPT-PINN Depth {[2,j+1,2]}: {loss_list[j]}")
 if (train_final_gpt):
-    for l in range(number_of_neurons):
-        print(f"Largest Loss of GPT-PINN Depth {[2,l+1,2]}: {loss_list[l]}")
+    print(f"Largest Loss of GPT-PINN Depth {[2,j+2,2]}: {loss_list[-1]}")
         
 if (plot_largest_loss):
     plt.figure(dpi=150, figsize=(10,8))
-    plt.plot(range(1,number_of_neurons+1), loss_list, marker='o', markersize=7, 
+    
+    if (train_final_gpt):
+        range_end = number_of_neurons + 1
+        list_end  = number_of_neurons
+    else:
+        range_end = number_of_neurons 
+        list_end  = number_of_neurons - 1
+        
+    
+    plt.plot(range(1,range_end), loss_list[:list_end], marker='o', markersize=7, 
              c="k", linewidth=3)
     
     plt.grid(True)
-    plt.xlim(1,max(range(1,number_of_neurons+1)))
-    plt.xticks(range(1,number_of_neurons+1))
+    plt.xlim(1,max(range(1,range_end)))
+    plt.xticks(range(1,range_end))
     
     plt.yscale("log") 
-    plt.xlabel("Number of Neurons", fontsize=17.5)
-    plt.ylabel("Largest Loss", fontsize=17.5)
+    plt.xlabel("Number of Neurons",      fontsize=17.5)
+    plt.ylabel("Largest Loss",           fontsize=17.5)
     plt.title("GPT-PINN Largest Losses", fontsize=17.5)
     plt.show()
 
@@ -263,15 +270,15 @@ for i in kg_neurons:
 idx = np.random.choice(len(kg_test), test_cases, replace=False)
 kg_test = np.array(kg_test)[idx]
 
-print(f"B\negin GPT-PINN Testing ({len(set(idx.flatten()))} Cases)")
+print(f"\nBegin GPT-PINN Testing ({len(set(idx.flatten()))} Cases)")
 
 I = len(P_list)   
 layers_gpt = np.array([2, I, 1])
-c_initial  = np.full(I, 1/(I+1))
+c_initial  = torch.full((1,I), 1/(I))
 
 total_test_time_1 = time.perf_counter()
-#incremental_test_times = np.ones(len(kg_test))
-#cnt = 0
+incremental_test_times = np.ones(len(kg_test))
+cnt = 0
 
 for kg_test_param in kg_test: # Training the 200 GPT-PINNs on the 200 Test Cases
     alpha, beta, gamma = kg_test_param[0], kg_test_param[1], kg_test_param[2]
@@ -292,11 +299,11 @@ for kg_test_param in kg_test: # Training the 200 GPT-PINNs on the 200 Test Cases
                            P_xx_term, P_tt_term, epochs_gpt_test, lr_gpt, largest_loss, 
                            largest_case, testing=True)
     
-    #incremental_test_times[cnt] = (time.perf_counter()-total_test_time_1)/3600
-    #cnt += 1
+    incremental_test_times[cnt] = (time.perf_counter()-total_test_time_1)/3600
+    cnt += 1
 
-#np.savetxt(".\incremental_test_times.txt", incremental_test_times)
+np.savetxt(".\incremental_test_times.txt", incremental_test_times)
 
 total_test_time_2 = time.perf_counter()
-print(f"Total Testing Time: {(total_test_time_2-total_test_time_1)/3600} Hours")
+print(f"\nTotal Testing Time: {(total_test_time_2-total_test_time_1)/3600} Hours")
 
