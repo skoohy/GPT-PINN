@@ -25,24 +25,23 @@ def Pi_t(IC_xt, P):
 def Ptt_aPxx_bP(alpha, beta, P_tt, P_xx, P_resid_values):
     """Ptt * alpha*Pxx + beta*P"""
     t1 = P_tt
-    t2 = alpha*P_xx
-    t3 = beta*P_resid_values
-    return t1 + t2 + t3
+    t2 = torch.mul(alpha,P_xx)
+    t3 = torch.mul(beta,P_resid_values)
+    return torch.add(torch.add(t1,t2),t3)
 
 def alpha_times_P_xx(alpha, P_xx_term):
-    """alpha*Pxx"""
-    a_P_xx = alpha*P_xx_term
-
+    """alpha*Pxx"""    
+    a_P_xx = torch.mul(alpha,P_xx_term)
     return a_P_xx
 
 def beta_times_P(beta, P_resid_values):
     """beta*P"""
-    b_P = beta*P_resid_values
+    b_P = torch.mul(beta,P_resid_values)
     return b_P
 
 def gamma2_P(gamma, P_resid_values):
-    """2*gamma*P"""
-    g2_P = 2*gamma*P_resid_values
+    """2*gamma*P"""    
+    g2_P = torch.mul(2*gamma, P_resid_values)
     return g2_P
 
 def xcos_x2cos2(x_resid, t_resid):

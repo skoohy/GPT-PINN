@@ -79,14 +79,14 @@ kg_neurons[0] = [-1.5, 0.5, 0.5]
 P_list = np.ones(number_of_neurons, dtype=object)
 
 lr_pinn     = 0.0005
-epochs_pinn = 7500
+epochs_pinn = 750
 
 layers_pinn = np.array([2, 40, 40, 1])
 
 lr_gpt     = 0.025
-epochs_gpt = 2000
-epochs_gpt_test = 5000
-test_cases = 200
+epochs_gpt = 20
+epochs_gpt_test = 50
+test_cases = 2
 
 # Save Data/Plot Options
 save_data         = False
@@ -186,7 +186,7 @@ for i in range(0, number_of_neurons):
         print(f"\nBegin GPT-PINN Training (Finding Neuron {i+2} / Using {i+1} Neurons)")
         
     gpt_train_time_1 = time.perf_counter()
-    for kg_param in kg_training[:6]:
+    for kg_param in kg_training:
         alpha, beta, gamma = kg_param[0], kg_param[1], kg_param[2]
         
         Ptt_aPxx_bP_term = Ptt_aPxx_bP(alpha, beta, P_tt_term[:,0:i+1], P_xx_term[:,0:i+1], P_resid_values[:,0:i+1])
@@ -205,7 +205,6 @@ for i in range(0, number_of_neurons):
                                P_IC_values[:,0:i+1], P_BC_values[:,0:i+1], Pi_t_term[:,0:i+1],
                                P_xx_term[:,0:i+1], P_tt_term[:,0:i+1], epochs_gpt, lr_gpt, largest_loss, 
                                largest_case)
-    
     
         largest_loss = gpt_losses[0]
         largest_case = gpt_losses[1]
@@ -277,7 +276,7 @@ layers_gpt = np.array([2, I, 1])
 c_initial  = torch.full((1,I), 1/(I))
 
 total_test_time_1 = time.perf_counter()
-incremental_test_times = np.ones(len(kg_test))
+#incremental_test_times = np.ones(len(kg_test))
 cnt = 0
 
 for kg_test_param in kg_test: # Training the 200 GPT-PINNs on the 200 Test Cases
@@ -299,10 +298,10 @@ for kg_test_param in kg_test: # Training the 200 GPT-PINNs on the 200 Test Cases
                            P_xx_term, P_tt_term, epochs_gpt_test, lr_gpt, largest_loss, 
                            largest_case, testing=True)
     
-    incremental_test_times[cnt] = (time.perf_counter()-total_test_time_1)/3600
-    cnt += 1
+    #incremental_test_times[cnt] = (time.perf_counter()-total_test_time_1)/3600
+    #cnt += 1
 
-np.savetxt(".\incremental_test_times.txt", incremental_test_times)
+#np.savetxt(".\incremental_test_times.txt", incremental_test_times)
 
 total_test_time_2 = time.perf_counter()
 print(f"\nTotal Testing Time: {(total_test_time_2-total_test_time_1)/3600} Hours")
