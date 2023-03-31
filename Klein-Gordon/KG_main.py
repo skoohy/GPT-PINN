@@ -79,14 +79,14 @@ kg_neurons[0] = [-1.5, 0.5, 0.5]
 P_list = np.ones(number_of_neurons, dtype=object)
 
 lr_pinn     = 0.0005
-epochs_pinn = 750
+epochs_pinn = 75000
 
 layers_pinn = np.array([2, 40, 40, 1])
 
 lr_gpt     = 0.025
-epochs_gpt = 20
-epochs_gpt_test = 50
-test_cases = 2
+epochs_gpt = 2000
+epochs_gpt_test = 5000
+test_cases = 200
 
 # Save Data/Plot Options
 save_data         = False
