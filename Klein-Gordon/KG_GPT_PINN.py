@@ -7,7 +7,7 @@ class GPT(nn.Module):
     def __init__(self, layers, alpha, beta, gamma, P, initial_c,
                  IC_u1, IC_u2, BC_u, f_hat, xcos_x2cos2_term,
                  activation_resid, activation_IC, activation_BC, 
-                 Pi_t_term, P_xx_term, P_tt_term):
+                 Pi_t_term, Ptt_aPxx_bP_term):
         super().__init__()
         self.layers     = layers
         self.alpha      = alpha
@@ -18,18 +18,17 @@ class GPT(nn.Module):
         self.loss_function = nn.MSELoss(reduction='mean').to(device)
         self.linears = nn.ModuleList([nn.Linear(layers[i], layers[i+1], bias=False) for i in range(len(layers)-1)])
         
-        self.IC_u1     = IC_u1
-        self.IC_u2     = IC_u2
-        self.BC_u      = BC_u
-        self.f_hat     = f_hat
-        self.Pi_t_term = Pi_t_term
-        self.P_xx_term = P_xx_term
-        self.P_tt_term = P_tt_term
+        self.IC_u1             = IC_u1
+        self.IC_u2             = IC_u2
+        self.BC_u              = BC_u
+        self.f_hat             = f_hat
+        self.Pi_t_term         = Pi_t_term
+        self.xcos_x2cos2_term  = xcos_x2cos2_term
+        self.Ptt_aPxx_bP_term  = Ptt_aPxx_bP_term
         
         self.activation_IC     = activation_IC
         self.activation_BC     = activation_BC
         self.activation_resid  = activation_resid
-        self.xcos_x2cos2_term  = xcos_x2cos2_term
         
         self.linears[0].weight.data = torch.ones(self.layers[1], self.layers[0])
         self.linears[1].weight.data = initial_c
@@ -56,15 +55,11 @@ class GPT(nn.Module):
 
     def lossR(self):
         """Residual loss function"""
-        u = self.forward(datatype='residual')
-
-        cP_tt = torch.matmul(self.P_tt_term, self.linears[1].weight.data[0][:,None])
-        cP_xx = torch.matmul(self.P_xx_term, self.linears[1].weight.data[0][:,None])
-
-        f1 = torch.add(cP_tt, self.alpha*cP_xx)
-        f2 = torch.add(self.beta*u, self.gamma*torch.square(u))
-        f = torch.add(torch.add(f1, f2), self.xcos_x2cos2_term)
-        
+        u  = self.forward(datatype='residual')
+        f1 = torch.matmul(self.Ptt_aPxx_bP_term, self.linears[1].weight.data[0][:,None])
+        f2 = torch.mul(self.gamma, torch.square(u))
+        f3 = torch.add(f1, f2)
+        f  = torch.add(f3, self.xcos_x2cos2_term)
         return self.loss_function(f, self.f_hat)
     
     def lossIC1BC(self, datatype):
@@ -78,7 +73,6 @@ class GPT(nn.Module):
     def lossIC2(self):
         """Second initial condition loss function"""
         cP_t = torch.matmul(self.Pi_t_term, self.linears[1].weight.data[0][:,None])
-
         return self.loss_function(cP_t, self.IC_u2)
     
     def loss(self):
@@ -88,9 +82,3 @@ class GPT(nn.Module):
         loss_IC2 = self.lossIC2()
         loss_BC  = self.lossIC1BC(datatype='boundary')
         return loss_R + loss_IC1 + loss_IC2 + loss_BC 
-    
-    
-    
-    
-    
-    

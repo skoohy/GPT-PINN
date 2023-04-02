@@ -4,9 +4,9 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 class grad_descent(object): 
     def __init__(self, alpha, beta, gamma, xt_resid, IC_xt, BC_xt, IC_u1, IC_u2,
-                 BC_u, xcos_x2cos2_term, Ptt_aPxx_bP_term, alpha_P_xx_term, beta_P_term, 
-                 gamm2_P_term, P_resid_values, P_IC_values, P_BC_values, 
-                 Pi_t_term, P_xx_term, P_tt_term, epochs_gpt, lr_gpt):
+                 BC_u, xcos_x2cos2_term, Ptt_aPxx_bP_term, gamm2_P_term, 
+                 P_resid_values, P_IC_values, P_BC_values, Pi_t_term, epochs_gpt, 
+                 lr_gpt):
         # PDE parameters
         self.alpha = alpha
         self.beta  = beta
@@ -24,11 +24,7 @@ class grad_descent(object):
         self.Pi_t_term         = Pi_t_term
         self.xcos_x2cos2_term  = xcos_x2cos2_term
         self.Ptt_aPxx_bP_term  = Ptt_aPxx_bP_term
-        self.alpha_P_xx_term   = alpha_P_xx_term
-        self.beta_P_term       = beta_P_term
         self.gamm2_P_term      = gamm2_P_term
-        self.P_xx_term         = P_xx_term
-        self.P_tt_term         = P_tt_term
 
         # Training Solutions
         self.IC_u1 = IC_u1
@@ -40,23 +36,20 @@ class grad_descent(object):
 
     def grad_loss(self, c):
         c = c.to(device)
-
         #######################################################################
         #######################################################################        
         #########################  Residual Gradient  #########################
 
-        term = torch.add(torch.add(self.P_tt_term, self.alpha_P_xx_term), self.beta_P_term)
-        term1 = torch.matmul(term, c[:,None])
+        Ptt_aPxx_bP = self.Ptt_aPxx_bP_term
+        u = torch.matmul(self.P_resid_values, c[:,None])
         
-        term2 = torch.matmul(self.P_resid_values, c[:,None])
-            
-        first_product = torch.add(torch.add(term1, torch.mul(self.gamma, torch.square(term2))), self.xcos_x2cos2_term)
+        term1 = torch.matmul(Ptt_aPxx_bP, c[:,None])
+        term3 = torch.add(term1, torch.mul(self.gamma, torch.square(u)))
+        first_product = torch.add(term3, self.xcos_x2cos2_term)
         
-        term3 = torch.mul(term2, self.gamm2_P_term)
-        
-        second_product = torch.add(self.Ptt_aPxx_bP_term, term3)
-        
-        grad_list = torch.mul(2/self.N_R, torch.sum(torch.mul(first_product,second_product), axis=0))
+        term4 = torch.mul(self.gamm2_P_term, u)
+        second_product = torch.add(Ptt_aPxx_bP, term4)
+        grad_list = torch.mul(2/self.N_R, torch.sum(torch.mul(first_product, second_product), axis=0))  
 
         #######################################################################
         #######################################################################        
@@ -83,6 +76,3 @@ class grad_descent(object):
     def update(self, c):
         c = torch.sub(c, torch.mul(self.lr_gpt, self.grad_loss(c)))
         return c.expand(1,c.shape[0])
-    
-           
-            

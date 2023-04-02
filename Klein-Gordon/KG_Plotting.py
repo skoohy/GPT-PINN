@@ -41,14 +41,6 @@ def loss_plot(epochs, losses, title=None, dpi=150, figsize=(10,8)):
     plt.yscale('log')
     
     if title is not None:
-        plt.title(title)
+        plt.title(title, fontsize=20)
     
     plt.show()
-        
-    
-    
-    
-    
-    
-
-    

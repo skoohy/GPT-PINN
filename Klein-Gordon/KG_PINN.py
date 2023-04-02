@@ -81,5 +81,3 @@ class NN(nn.Module):
         loss_BC  = self.lossIC1BC(BC_xt, BC_u)
                 
         return loss_R + loss_IC1 + loss_IC2 + loss_BC 
-    
-    

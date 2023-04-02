@@ -14,7 +14,7 @@ from KG_PINN_train import pinn_train
 
 # GPT-PINN
 from KG_GPT_activation import P
-from KG_GPT_precomp import autograd_calculations, xcos_x2cos2, Ptt_aPxx_bP, alpha_times_P_xx, beta_times_P, gamma2_P, Pi_t
+from KG_GPT_precomp import autograd_calculations, xcos_x2cos2, Ptt_aPxx_bP, gamma2_P, Pi_t
 from KG_GPT_PINN import GPT
 from KG_GPT_train import gpt_train
 
@@ -63,13 +63,13 @@ print(f"Expected Final GPT-PINN Depth: {[2,number_of_neurons,1]}\n")
 #################################### Setup ####################################
 ###############################################################################
 
-P_resid_values = torch.ones((xt_resid.shape[0],  number_of_neurons)).to(device)
-P_IC_values    = torch.ones((   IC_xt.shape[0],  number_of_neurons)).to(device)
-P_BC_values    = torch.ones((   BC_xt.shape[0],  number_of_neurons)).to(device)
-Pi_t_term      = torch.ones((   IC_xt.shape[0],  number_of_neurons)).to(device)
+P_resid_values = torch.ones((xt_resid.shape[0], number_of_neurons)).to(device)
+P_IC_values    = torch.ones((   IC_xt.shape[0], number_of_neurons)).to(device)
+P_BC_values    = torch.ones((   BC_xt.shape[0], number_of_neurons)).to(device)
+Pi_t_term      = torch.ones((   IC_xt.shape[0], number_of_neurons)).to(device)
 
-P_xx_term = torch.ones((xt_resid.shape[0],  number_of_neurons)).to(device)
-P_tt_term = torch.ones((xt_resid.shape[0],  number_of_neurons)).to(device)
+P_xx_term = torch.ones((xt_resid.shape[0], number_of_neurons)).to(device)
+P_tt_term = torch.ones((xt_resid.shape[0], number_of_neurons)).to(device)
 
 xcos_x2cos2_term = xcos_x2cos2(xt_resid[:,[0]], xt_resid[:,[1]]).to(device)
 
@@ -160,7 +160,6 @@ for i in range(0, number_of_neurons):
         epochs    = pinn_losses[1]
         loss_plot(epochs, loss_vals, title=fr"PINN Losses $\alpha={round(alpha,3)}, \beta={round(beta,3)}, \gamma={round(gamma,3)}$")
 
-
     if (i == number_of_neurons-1) and (train_final_gpt == False):
         break
         
@@ -186,32 +185,28 @@ for i in range(0, number_of_neurons):
         print(f"\nBegin GPT-PINN Training (Finding Neuron {i+2} / Using {i+1} Neurons)")
         
     gpt_train_time_1 = time.perf_counter()
-    for kg_param in kg_training:
+    for kg_param in kg_training[:200]:
         alpha, beta, gamma = kg_param[0], kg_param[1], kg_param[2]
         
         Ptt_aPxx_bP_term = Ptt_aPxx_bP(alpha, beta, P_tt_term[:,0:i+1], P_xx_term[:,0:i+1], P_resid_values[:,0:i+1])
-        alpha_P_xx_term  = alpha_times_P_xx(alpha, P_xx_term[:,0:i+1])
-        beta_P_term      = beta_times_P(beta, P_resid_values[:,0:i+1])
         gamm2_P_term     = gamma2_P(gamma, P_resid_values[:,0:i+1])
         
         GPT_NN = GPT(layers_gpt, alpha, beta, gamma, P_list[0:i+1], c_initial,
                      IC_u1, IC_u2, BC_u, f_hat, xcos_x2cos2_term,
                      P_resid_values[:,0:i+1], P_IC_values[:,0:i+1], P_BC_values[:,0:i+1],
-                     Pi_t_term[:,0:i+1], P_xx_term[:,0:i+1], P_tt_term[:,0:i+1]).to(device)
+                     Pi_t_term[:,0:i+1], Ptt_aPxx_bP_term[:,0:i+1]).to(device)
 
         gpt_losses = gpt_train(GPT_NN, alpha, beta, gamma, xt_resid, IC_xt, IC_u1, IC_u2, BC_xt, BC_u,
-                               xcos_x2cos2_term, Ptt_aPxx_bP_term[:,0:i+1], alpha_P_xx_term[:,0:i+1],
-                               beta_P_term[:,0:i+1], gamm2_P_term[:,0:i+1], P_resid_values[:,0:i+1],
-                               P_IC_values[:,0:i+1], P_BC_values[:,0:i+1], Pi_t_term[:,0:i+1],
-                               P_xx_term[:,0:i+1], P_tt_term[:,0:i+1], epochs_gpt, lr_gpt, largest_loss, 
-                               largest_case)
+                               xcos_x2cos2_term, Ptt_aPxx_bP_term[:,0:i+1], gamm2_P_term[:,0:i+1], 
+                               P_resid_values[:,0:i+1], P_IC_values[:,0:i+1], P_BC_values[:,0:i+1], 
+                               Pi_t_term[:,0:i+1], epochs_gpt, lr_gpt, largest_loss, largest_case)
     
         largest_loss = gpt_losses[0]
         largest_case = gpt_losses[1]
     
     gpt_train_time_2 = time.perf_counter()
     print("GPT-PINN Training Completed")
-    print(f"\nGPT Training Time ({i+1} Neurons): {(gpt_train_time_2-gpt_train_time_1)/3600} Hours")
+    print(f"GPT Training Time ({i+1} Neurons): {(gpt_train_time_2-gpt_train_time_1)/3600} Hours\n")
     
     loss_list[i] = largest_loss
     
@@ -224,8 +219,7 @@ total_train_time_2 = time.perf_counter()
 
 ###############################################################################
 # Results of largest loss, parameters chosen, and times may vary based on
-# the initialization of full PINN and the final loss of the full PINN, and
-# background processes
+# the initialization of full PINN and the final loss of the full PINN
 print("******************************************************************")
 print("*** Full PINN and GPT-PINN Training Complete ***")
 print(f"Total Training Time: {(total_train_time_2-total_train_time_1)/3600} Hours\n")
@@ -247,7 +241,6 @@ if (plot_largest_loss):
         range_end = number_of_neurons 
         list_end  = number_of_neurons - 1
         
-    
     plt.plot(range(1,range_end), loss_list[:list_end], marker='o', markersize=7, 
              c="k", linewidth=3)
     
@@ -280,24 +273,21 @@ total_test_time_1 = time.perf_counter()
 #incremental_test_times = np.ones(len(kg_test))
 cnt = 0
 
-for kg_test_param in kg_test: # Training the 200 GPT-PINNs on the 200 Test Cases
+for kg_test_param in kg_test:
     alpha, beta, gamma = kg_test_param[0], kg_test_param[1], kg_test_param[2]
+    
     Ptt_aPxx_bP_term = Ptt_aPxx_bP(alpha, beta, P_tt_term, P_xx_term, P_resid_values)
-    alpha_P_xx_term  = alpha_times_P_xx(alpha, P_xx_term)
-    beta_P_term      = beta_times_P(beta, P_resid_values)
     gamm2_P_term     = gamma2_P(gamma, P_resid_values)
     
     GPT_NN = GPT(layers_gpt, alpha, beta, gamma, P_list, c_initial,
                  IC_u1, IC_u2, BC_u, f_hat, xcos_x2cos2_term,
                  P_resid_values, P_IC_values, P_BC_values,
-                 Pi_t_term, P_xx_term, P_tt_term).to(device)
+                 Pi_t_term, Ptt_aPxx_bP_term).to(device)
 
-    gpt_losses = gpt_train(GPT_NN, alpha, beta, gamma, xt_resid, IC_xt, IC_u1, IC_u2, BC_xt, BC_u,
-                           xcos_x2cos2_term, Ptt_aPxx_bP_term, alpha_P_xx_term,
-                           beta_P_term, gamm2_P_term, P_resid_values,
-                           P_IC_values, P_BC_values, Pi_t_term,
-                           P_xx_term, P_tt_term, epochs_gpt_test, lr_gpt, largest_loss, 
-                           largest_case, testing=True)
+    gpt_losses = gpt_train(GPT_NN, alpha, beta, gamma, xt_resid, IC_xt, IC_u1, 
+                           IC_u2, BC_xt, BC_u, xcos_x2cos2_term, Ptt_aPxx_bP_term, 
+                           gamm2_P_term, P_resid_values, P_IC_values, P_BC_values, 
+                           Pi_t_term, epochs_gpt, lr_gpt, testing=True)
     
     #incremental_test_times[cnt] = (time.perf_counter()-total_test_time_1)/3600
     #cnt += 1

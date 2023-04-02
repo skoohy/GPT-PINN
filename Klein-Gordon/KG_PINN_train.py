@@ -25,4 +25,3 @@ def pinn_train(PINN, alpha, beta, gamma, xt_resid, IC_xt, IC_u1, IC_u2, BC_xt, B
                     print("PINN Training Completed\n")
                     
     return losses, ep
-    
