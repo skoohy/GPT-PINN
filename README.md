@@ -32,7 +32,7 @@ Currently the Klein-Gordon equation files are avaliable to be used. Running the 
 
 Code for the Burgers equation and Allen-Cahn equation will be uploaded in the near future. We plan on modifying and updating the code over time to make it more cost-effective and efficient.
 
-![Image 2](fig/KG_times.png)
+![Image 2](fig/KG_t1.png)
 
 *Imporved Klein-Gordon Training and Testing Times*
 
