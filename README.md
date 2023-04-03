@@ -28,13 +28,17 @@ Combinations of different package versions (recent ones) will most likely be abl
 The code was implemented with the intension of compution to be primarily preformed on the GPU. CPU computation can be done however, it will take much longer. 
 
 ## Future and Current Work:
-Currently the Klein-Gordon equation files are avaliable to be used. Running the `KG_main.py` (with the other files in the folder located in the same directory) will begin the training of the full PINN and GPT-PINN, growing the GPT-PINN hidden layer size from 1 to 15. The Final GPT-PINN of size (2,15,1) is then tested on 200 test cases.
+Currently the Klein-Gordon and Burgers' equation files are avaliable to be used. Running the `KG_main.py` or `B_main.py` (with the other files in the folder located in the same directory) will begin the training of the full PINN and GPT-PINN, growing the GPT-PINN hidden layer size from 1 to 15 (Klein-Gordon) or 1 to 9 (Burgers'). The Final GPT-PINN is then tested on the generated test cases.
 
-Code for the Burgers equation and Allen-Cahn equation will be uploaded in the near future. We plan on modifying and updating the code over time to make it more cost-effective and efficient.
+Code for the Allen-Cahn equation will be uploaded in the near future.
 
 ![Image 2](fig/KG_t1.png)
 
 *Imporved Klein-Gordon Training and Testing Times*
+
+![Image 2](fig/B_t1.png)
+
+*Imporved Burgers' Training and Testing Times*
 
 ## Citation:
 Below you can find the Bibtex citation:
