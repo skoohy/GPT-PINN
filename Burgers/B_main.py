@@ -191,7 +191,7 @@ for i in range(0, number_of_neurons):
     gpt_train_time_1 = time.perf_counter()
     for nu in nu_training:
         if layers_gpt[1] == 1:
-            c_initial = c_initial = torch.ones(layers_gpt[1])
+            c_initial = torch.ones(layers_gpt[1])
     
         elif nu in nu_neurons[:i+1]: 
             index     = np.where(nu == nu_neurons[:i+1]) 
