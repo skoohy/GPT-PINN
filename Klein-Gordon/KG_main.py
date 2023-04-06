@@ -271,7 +271,7 @@ c_initial  = torch.full((1,I), 1/(I))
 
 total_test_time_1 = time.perf_counter()
 #incremental_test_times = np.ones(len(kg_test))
-cnt = 0
+#cnt = 0
 
 for kg_test_param in kg_test:
     alpha, beta, gamma = kg_test_param[0], kg_test_param[1], kg_test_param[2]
