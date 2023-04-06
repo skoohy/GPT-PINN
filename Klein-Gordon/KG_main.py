@@ -185,7 +185,7 @@ for i in range(0, number_of_neurons):
         print(f"\nBegin GPT-PINN Training (Finding Neuron {i+2} / Using {i+1} Neurons)")
         
     gpt_train_time_1 = time.perf_counter()
-    for kg_param in kg_training[:200]:
+    for kg_param in kg_training:
         alpha, beta, gamma = kg_param[0], kg_param[1], kg_param[2]
         
         Ptt_aPxx_bP_term = Ptt_aPxx_bP(alpha, beta, P_tt_term[:,0:i+1], P_xx_term[:,0:i+1], P_resid_values[:,0:i+1])
