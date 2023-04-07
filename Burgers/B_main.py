@@ -82,9 +82,9 @@ test_cases = 25
 
 # Save Data/Plot Options
 save_data         = False
-plot_pinn_loss    = False
-plot_pinn_sol     = False
-plot_largest_loss = False
+plot_pinn_loss    = True
+plot_pinn_sol     = True
+plot_largest_loss = True
 
 pinn_train_times = np.ones(number_of_neurons)
 gpt_train_times = np.ones(number_of_neurons)
