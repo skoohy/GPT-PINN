@@ -83,10 +83,10 @@ epochs_pinn = 75000
 
 layers_pinn = np.array([2, 40, 40, 1])
 
-lr_gpt     = 0.025
-epochs_gpt = 2000
+lr_gpt          = 0.025
+epochs_gpt      = 2000
 epochs_gpt_test = 5000
-test_cases = 200
+test_cases      = 200
 
 # Save Data/Plot Options
 save_data         = False
@@ -95,7 +95,7 @@ plot_pinn_sol     = True
 plot_largest_loss = True
 
 pinn_train_times = np.ones(number_of_neurons)
-gpt_train_times = np.ones(number_of_neurons)
+gpt_train_times  = np.ones(number_of_neurons)
 
 total_train_time_1 = time.perf_counter()
 ###############################################################################
