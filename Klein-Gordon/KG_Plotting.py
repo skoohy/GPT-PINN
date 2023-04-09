@@ -4,6 +4,7 @@ plt.style.use(['science', 'notebook'])
 
 def KG_plot(xt, u, scale=150, cmap="rainbow", title=None, 
                  dpi=150, figsize=(10,8)):
+    """Klein-Gordon Contour Plot"""
     
     shape = [int(np.sqrt(u.shape[0])), int(np.sqrt(u.shape[0]))]
     
@@ -30,6 +31,7 @@ def KG_plot(xt, u, scale=150, cmap="rainbow", title=None,
     plt.show()
 
 def loss_plot(epochs, losses, title=None, dpi=150, figsize=(10,8)):
+    """Training losses"""
     plt.figure(dpi=dpi, figsize=figsize)
     plt.plot(epochs, losses, c="k", linewidth=3)
     

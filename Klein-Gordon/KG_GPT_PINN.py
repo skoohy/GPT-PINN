@@ -34,11 +34,12 @@ class GPT(nn.Module):
         self.linears[1].weight.data = initial_c
         
     def forward(self, datatype=None, test_data=None):
-        if test_data is not None: # Test Data Forward Pass (if test data != resid data)
+        if test_data is not None:
             a = torch.Tensor().to(device)
             for i in range(0, self.layers[1]):
                 a = torch.cat((a, self.activation[i](test_data)), 1)
             final_output = self.linears[-1](a)
+            
             return final_output
         
         if datatype == 'residual': # Residual Data Output

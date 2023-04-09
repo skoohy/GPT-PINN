@@ -129,7 +129,8 @@ for i in range(0, number_of_neurons):
     b2 = PINN.linears[1].bias.detach().cpu()
     b3 = PINN.linears[2].bias.detach().cpu()
     
-    P_list[i] = P(w1, w2, w3, b1, b2, b3).to(device) # Add new activation functions
+    # Add new activation functions
+    P_list[i] = P(w1, w2, w3, b1, b2, b3).to(device)
     
     print(f"\nCurrent GPT-PINN Depth: [2,{i+1},1]")
     
@@ -167,7 +168,6 @@ for i in range(0, number_of_neurons):
     layers_gpt = np.array([2, i+1, 1])
     c_initial  = torch.full((1,i+1), 1/(i+1))
     P_xx, P_tt = autograd_calculations(xt_resid, P_list[i])  
-    
     P_xx_term[:,i][:,None] = P_xx
     P_tt_term[:,i][:,None] = P_tt
     
@@ -188,7 +188,9 @@ for i in range(0, number_of_neurons):
     for kg_param in kg_training:
         alpha, beta, gamma = kg_param[0], kg_param[1], kg_param[2]
         
-        Ptt_aPxx_bP_term = Ptt_aPxx_bP(alpha, beta, P_tt_term[:,0:i+1], P_xx_term[:,0:i+1], P_resid_values[:,0:i+1])
+        Ptt_aPxx_bP_term = Ptt_aPxx_bP(alpha, beta, P_tt_term[:,0:i+1], 
+                                       P_xx_term[:,0:i+1], P_resid_values[:,0:i+1])
+        
         gamm2_P_term     = gamma2_P(gamma, P_resid_values[:,0:i+1])
         
         GPT_NN = GPT(layers_gpt, alpha, beta, gamma, P_list[0:i+1], c_initial,
@@ -206,7 +208,7 @@ for i in range(0, number_of_neurons):
     
     gpt_train_time_2 = time.perf_counter()
     print("GPT-PINN Training Completed")
-    print(f"GPT Training Time ({i+1} Neurons): {(gpt_train_time_2-gpt_train_time_1)/3600} Hours\n")
+    print(f"GPT Training Time ({i+1} Neurons): {(gpt_train_time_2-gpt_train_time_1)/3600} Hours")
     
     loss_list[i] = largest_loss
     
@@ -270,8 +272,8 @@ layers_gpt = np.array([2, I, 1])
 c_initial  = torch.full((1,I), 1/(I))
 
 total_test_time_1 = time.perf_counter()
-#incremental_test_times = np.ones(len(kg_test))
-#cnt = 0
+incremental_test_times = np.ones(len(kg_test))
+cnt = 0
 
 for kg_test_param in kg_test:
     alpha, beta, gamma = kg_test_param[0], kg_test_param[1], kg_test_param[2]
@@ -289,8 +291,10 @@ for kg_test_param in kg_test:
                            gamm2_P_term, P_resid_values, P_IC_values, P_BC_values, 
                            Pi_t_term, epochs_gpt, lr_gpt, testing=True)
     
-    #incremental_test_times[cnt] = (time.perf_counter()-total_test_time_1)/3600
-    #cnt += 1
+    utest = GPT_NN.forward(test_data=xt_test).detach().cpu().numpy()
+    
+    incremental_test_times[cnt] = (time.perf_counter()-total_test_time_1)/3600
+    cnt += 1
 
 #np.savetxt(".\incremental_test_times.txt", incremental_test_times)
 
@@ -298,3 +302,18 @@ total_test_time_2 = time.perf_counter()
 print("\nGPT-PINN Testing Completed")
 print(f"\nTotal Testing Time: {(total_test_time_2-total_test_time_1)/3600} Hours")
 
+init_time = (total_train_time_2-total_train_time_1)/3600
+test_time = incremental_test_times
+line = test_time + init_time
+x = range(1,test_time.shape[0]+1)
+plt.figure(dpi=150, figsize=(10,8))
+plt.plot(x, line, c="k", lw=3.5)
+plt.xlabel("Test Case Number", fontsize=22.5)
+plt.ylabel("Time (Hours)", fontsize=22.5)
+plt.xlim(min(x),max(x))
+plt.ylim(min(line),max(line))
+xtick = list(range(0,test_cases+1,20))
+xtick[0] = 1
+plt.xticks(xtick)
+plt.grid(True)
+plt.show()

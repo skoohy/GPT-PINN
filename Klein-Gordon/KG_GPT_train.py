@@ -5,8 +5,8 @@ torch.set_default_dtype(torch.float)
 def gpt_train(GPT_PINN, alpha, beta, gamma, xt_resid, 
               IC_xt, IC_u1, IC_u2, BC_xt, BC_u, xcos_x2cos2_term,
               Ptt_aPxx_bP_term, gamm2_P_term, P_resid_values, P_IC_values, 
-              P_BC_values, Pi_t_term, epochs_gpt, lr_gpt, largest_loss=None, largest_case=None,
-              testing=False):
+              P_BC_values, Pi_t_term, epochs_gpt, lr_gpt, largest_loss=None, 
+              largest_case=None, testing=False):
     
     GD = grad_descent(alpha, beta, gamma, xt_resid, IC_xt, BC_xt, IC_u1, IC_u2, 
                       BC_u, xcos_x2cos2_term, Ptt_aPxx_bP_term, gamm2_P_term, 
