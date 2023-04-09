@@ -45,7 +45,7 @@ BC_u      = ICBC_data[3].to(device)
 nu_training = np.loadtxt("nu_training.txt")
 
 train_final_gpt   = True
-number_of_neurons = 4
+number_of_neurons = 9
 loss_list         = np.ones(number_of_neurons)
 print(f"Expected Final GPT-PINN Depth: {[2,number_of_neurons,1]}\n")
 
@@ -346,6 +346,8 @@ plt.xlabel("Test Case Number", fontsize=22.5)
 plt.ylabel("Time (Hours)", fontsize=22.5)
 plt.xlim(min(x),max(x))
 plt.ylim(min(line),max(line))
-plt.xticks([1,5,10,15,20,25])
+xtick = list(range(0,test_cases+1,5))
+xtick[0] = 1
+plt.xticks(xtick)
 plt.grid(True)
 plt.show()
