@@ -45,7 +45,7 @@ BC_u      = ICBC_data[3].to(device)
 nu_training = np.loadtxt("nu_training.txt")
 
 train_final_gpt   = True
-number_of_neurons = 9
+number_of_neurons = 4
 loss_list         = np.ones(number_of_neurons)
 print(f"Expected Final GPT-PINN Depth: {[2,number_of_neurons,1]}\n")
 
@@ -295,8 +295,8 @@ print(f"\nBegin GPT-PINN Testing ({len(set(idx.flatten()))} Cases)")
 layers_gpt = np.array([2, len(P_list), 1])
 
 total_test_time_1 = time.perf_counter()
-#incremental_test_times = np.ones(len(nu_test))
-#cnt = 0
+incremental_test_times = np.ones(len(nu_test))
+cnt = 0
 
 for nu_test_param in nu_test:
     dist = np.zeros(layers_gpt[1])    
@@ -327,11 +327,25 @@ for nu_test_param in nu_test:
                            Pt_nu_P_xx_term, P_x_term, epochs_gpt_test, lr_gpt, 
                            largest_loss, largest_case, testing=True)
     
-    #incremental_test_times[cnt] = (time.perf_counter()-total_test_time_1)/3600
-    #cnt += 1
+    incremental_test_times[cnt] = (time.perf_counter()-total_test_time_1)/3600
+    cnt += 1
 
 #np.savetxt(".\incremental_test_times.txt", incremental_test_times)
 
 total_test_time_2 = time.perf_counter()
 print("\nGPT-PINN Testing Completed")
 print(f"\nTotal Testing Time: {(total_test_time_2-total_test_time_1)/3600} Hours")
+
+init_time = (total_train_time_2-total_train_time_1)/3600
+test_time = incremental_test_times
+line = test_time + init_time
+x = range(1,test_time.shape[0]+1)
+plt.figure(dpi=150, figsize=(10,8))
+plt.plot(x, line, c="k", lw=3.5)
+plt.xlabel("Test Case Number", fontsize=22.5)
+plt.ylabel("Time (Hours)", fontsize=22.5)
+plt.xlim(min(x),max(x))
+plt.ylim(min(line),max(line))
+plt.xticks([1,5,10,15,20,25])
+plt.grid(True)
+plt.show()

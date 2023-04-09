@@ -40,11 +40,11 @@ class GPT(nn.Module):
             final_output = self.linears[-1](self.activation_resid).to(device)
             return final_output
         
-        if datatype == 'initial':
+        if datatype == 'initial': # Initial Data Output
             final_output = self.linears[-1](self.activation_IC).to(device)
             return final_output
         
-        if datatype == 'boundary':
+        if datatype == 'boundary': # Boundary Data Output
             final_output = self.linears[-1](self.activation_BC).to(device)
             return final_output
     

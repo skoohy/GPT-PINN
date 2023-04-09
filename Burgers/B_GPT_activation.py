@@ -23,7 +23,8 @@ class P(nn.Module):
         
         self.activation = nn.Tanh()
         
-    def forward(self, x):       
+    def forward(self, x):      
+        """GPT-PINN Activation Function"""
         a = x
         for i in range(0, len(self.layers)-2):
             z = self.linears[i](a)

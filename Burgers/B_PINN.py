@@ -27,6 +27,7 @@ class NN(nn.Module):
         return a
     
     def lossR(self, xt_residual, f_hat):
+        """Residual loss function"""
         g = xt_residual.requires_grad_()
 
         u = self.forward(g)
@@ -45,10 +46,12 @@ class NN(nn.Module):
         return self.loss_function(f, f_hat)
     
     def lossICBC(self, ICBC_xt, ICBC_u):
+        """Initial and both boundary condition loss function"""
         loss_ICBC = self.loss_function(self.forward(ICBC_xt), ICBC_u)
         return loss_ICBC
 
     def loss(self, xt_resid, IC_xt, IC_u, BC_xt, BC_u, f_hat):
+        """Total loss function"""
         loss_R   = self.lossR(xt_resid, f_hat)
         loss_IC = self.lossICBC(IC_xt, IC_u)
         loss_BC  = self.lossICBC(BC_xt, BC_u)
