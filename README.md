@@ -30,21 +30,21 @@ The code was implemented with the intension of compution to be primarily preform
 ## Usage:
 The Klein-Gordon, Allen-Cahn, and Burgers' equation files are currently avaliable. Running `KG_main.py`, `B_main.py`, or `AC_main.py` (with the other files in the folder located in the respective directory) will begin the training of the full-PINN and GPT-PINN, growing the GPT-PINN hidden layer size from 1 to 15 (Klein-Gordon) or 9 (Burgers' and Allen-Cahn). The Final GPT-PINN is then trained on the generated test cases. 
 
-Changing the number of neurons one may want to grow the GPT-PINN up to is very straightforward. Simply modify the `number_of_neurons` variable (Line 72 in `AC_main.py`, Line 58 in `KG_main.py`, and Line 48 in `B_main.py`). As a default setting, once the total number of neurons is achieved, the GPT-PINN is trained once more in order to find the largest loss obtained (at 200 epochs) using the final number of neurons. This is done to give more infomration about the final state of the GPT-PINN. In order to use the GPT-PINN (in its final form) there is no need to find the largest loss once the final activation function is added. This feature can be turned off by setting `train_final_gpt=False` (Line 71 in `AC_main.py`, Line 57in `KG_main.py` and Line 47in `B_main.py`).
+Changing the number of neurons one may want to grow the GPT-PINN up to is very straightforward. Simply modify the `number_of_neurons` variable (Line 72 in `AC_main.py`, Line 58 in `KG_main.py`, and Line 48 in `B_main.py`). As a default setting, once the total number of neurons is achieved, the GPT-PINN is trained once more in order to find the largest loss obtained (at 200 epochs) using the final number of neurons. This is done to give more infomration about the final state of the GPT-PINN. In order to use the GPT-PINN (in its final form) there is no need to find the largest loss once the final activation function is added. This feature can be turned off by setting `train_final_gpt=False` (Line 71 in `AC_main.py`, Line 57 in `KG_main.py` and Line 47 in `B_main.py`).
 
 We've imporved the overal run time of the GPT-PINN (as compared to what is presented in the current paper) by implmenting more methods of vectorization into the code. These changes are presented below:
 
 ![Image 2](fig/KG_t1.png)
 
-*Imporved Klein-Gordon Training and Testing Times*
+*Imporved Klein-Gordon Run Times*
 
 ![Image 2](fig/B_t1.png)
 
-*Imporved Burgers' Training and Testing Times*
+*Imporved Burgers' Run Times*
 
 ![Image 2](fig/AC_t1.png)
 
-*Imporved Allen-Cahn Training and Testing Times*
+*Imporved Allen-Cahn Run Times*
 
 ## Citation:
 Below you can find the Bibtex citation:
