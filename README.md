@@ -36,15 +36,15 @@ We've improved the overall run time of the GPT-PINN (as compared to what is pres
 
 ![Image 2](fig/KG_t1.png)
 
-*Imporved Klein-Gordon Run Times*
+*Improved Klein-Gordon Run Times*
 
 ![Image 2](fig/B_t1.png)
 
-*Imporved Burgers' Run Times*
+*Improved Burgers' Run Times*
 
 ![Image 2](fig/AC_t1.png)
 
-*Imporved Allen-Cahn Run Times*
+*Improved Allen-Cahn Run Times*
 
 ## Citation:
 Below you can find the Bibtex citation:
