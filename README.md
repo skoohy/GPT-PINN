@@ -32,7 +32,7 @@ The Klein-Gordon, Allen-Cahn, and Burgers' equation files are currently avaliabl
 
 Changing the number of neurons one may want to grow the GPT-PINN up to is very straightforward. Simply modify the `number_of_neurons` variable (Line 72 in `AC_main.py`, Line 58 in `KG_main.py`, and Line 48 in `B_main.py`). As a default setting, once the total number of neurons is achieved, the GPT-PINN is trained once more in order to find the largest loss obtained (at 200 epochs) using the final number of neurons. This is done to give more infomration about the final state of the GPT-PINN. In order to use the GPT-PINN (in its final form) there is no need to find the largest loss once the final activation function is added. This feature can be turned off by setting `train_final_gpt=False` (Line 71 in `AC_main.py`, Line 57 in `KG_main.py` and Line 47 in `B_main.py`).
 
-We've imporved the overal run time of the GPT-PINN (as compared to what is presented in the current paper) by implmenting more methods of vectorization into the code. These changes are presented below:
+We've improved the overall run time of the GPT-PINN (as compared to what is presented in the current paper version) by implementing more methods of vectorization into the code. These changes are presented below:
 
 ![Image 2](fig/KG_t1.png)
 
