@@ -40,6 +40,10 @@ Code for the Allen-Cahn equation will be uploaded in the near future.
 
 *Imporved Burgers' Training and Testing Times*
 
+![Image 2](fig/AC_t1.png)
+
+*Imporved Allen-Cahn Training and Testing Times*
+
 ## Citation:
 Below you can find the Bibtex citation:
 ```
