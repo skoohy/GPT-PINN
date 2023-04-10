@@ -4,7 +4,7 @@
 
 ### Yanlai Chen<sup>1</sup>, Shawn Koohy<sup>1</sup>
 
-## Paper Links: [arXiv](https://arxiv.org/abs/2303.14878) [ResearchGate](https://www.researchgate.net/publication/369556903_GPT-PINN_Generative_Pre-Trained_Physics-Informed_Neural_Networks_toward_non-intrusive_Meta-learning_of_parametric_PDEs)
+## Paper Links: [arXiv](https://arxiv.org/abs/2303.14878) | [ResearchGate](https://www.researchgate.net/publication/369556903_GPT-PINN_Generative_Pre-Trained_Physics-Informed_Neural_Networks_toward_non-intrusive_Meta-learning_of_parametric_PDEs)
 
 ![Image 1](fig/GPT-PINN.png)
 *GPT-PINN Architecture*
