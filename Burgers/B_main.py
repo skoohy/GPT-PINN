@@ -174,10 +174,10 @@ for i in range(0, number_of_neurons):
     P_BC_values[:,i][:,None]    = P_list[i](BC_xt)
     P_resid_values[:,i][:,None] = P_list[i](xt_resid)
     
-    P_t_term[:,i][:,None].put_(idx_list[i].to(device),       torch.zeros(2000).to(device))
-    P_x_term[:,i][:,None].put_(idx_list[i].to(device),       torch.zeros(2000).to(device))
-    P_xx_term[:,i][:,None].put_(idx_list[i].to(device),      torch.zeros(2000).to(device))
-    P_resid_values[:,i][:,None].put_(idx_list[i].to(device), torch.zeros(2000).to(device))
+    P_t_term[:,i][:,None].put_(idx_list[i].to(device),       torch.zeros(num_largest_mag).to(device))
+    P_x_term[:,i][:,None].put_(idx_list[i].to(device),       torch.zeros(num_largest_mag).to(device))
+    P_xx_term[:,i][:,None].put_(idx_list[i].to(device),      torch.zeros(num_largest_mag).to(device))
+    P_resid_values[:,i][:,None].put_(idx_list[i].to(device), torch.zeros(num_largest_mag).to(device))
     
     # Finding The Next Neuron
     largest_case = 0
