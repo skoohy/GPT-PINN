@@ -10,9 +10,11 @@
 *GPT-PINN Architecture*
 
 ## Talk / Presentation
-Click Thumbnail or [YouTube Video Link](https://www.youtube.com/watch?v=KWaWH7xeVEg&t=1962s)
+Click Thumbnail or [YouTube Video Link](https://www.youtube.com/watch?v=KWaWH7xeVEg)
+<a href="https://www.youtube.com/watch?v=KWaWH7xeVEg" target="_blank">YouTube Video Link</a>
 
-[![Watch the video](https://i.imgur.com/uiUaFR2.jpeg)](https://www.youtube.com/watch?v=KWaWH7xeVEg&t=1962s)
+
+[![Watch the video](https://i.imgur.com/uiUaFR2.jpeg)](https://www.youtube.com/watch?v=KWaWH7xeVEg)
 
 ## Abstract: 
 <em>Physics-Informed Neural Network (PINN) has proven itself a powerful tool to obtain the numerical solutions of nonlinear partial differential equations (PDEs) leveraging the expressivity of deep neural networks and the computing power of modern heterogeneous hardware. However, its training is still time-consuming, especially in the multi-query and real-time simulation settings, and its parameterization often overly excessive. In this paper, we propose the Generative Pre-Trained PINN (GPT-PINN) to mitigate both challenges in the setting of parametric PDEs. GPT-PINN represents a brand-new meta-learning paradigm for parametric systems. As a network of networks, its outer-/meta-network is hyper-reduced with only one hidden layer having significantly reduced number of neurons. Moreover, its activation function at each hidden neuron is a (full) PINN pre-trained at a judiciously selected system configuration. The meta-network adaptively “learns” the parametric dependence of the system and “grows” this hidden layer one neuron at a time. In the end, by encompassing a very small number of networks trained at this set of adaptively-selected parameter values, the meta-network is capable of generating surrogate solutions for the parametric system across the entire parameter domain accurately and efficiently.</em>
