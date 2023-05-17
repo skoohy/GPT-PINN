@@ -10,6 +10,7 @@
 *GPT-PINN Architecture*
 
 ## Talk / Presentation
+<a href="placeholder.com" target="_blank">Opens in new tab</a>
 [YouTube Video Link](https://external.ink?to=/www.youtube.com/watch?v=KWaWH7xeVEg)
 
 
