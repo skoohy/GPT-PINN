@@ -30,7 +30,7 @@ Matplotlib = 3.6.2
 Combinations of different package versions (recent ones) will most likely be able to run the code with little to no change.  
 
 ## GPU and CPU Support:
-The code was implemented with the intension of compution to be primarily preformed on the GPU. CPU computation can be done however, it will take much longer. 
+The code was implemented with the intention of computation to be primarily preformed on the GPU. CPU computation can be done however, it will take much longer. 
 
 ## Usage:
 The Klein-Gordon, Allen-Cahn, and Burgers' equation files are currently available. Running `KG_main.py`, `B_main.py`, or `AC_main.py` (with the other files in the folder located in the respective directory) will begin the training of the full-PINN and GPT-PINN, growing the GPT-PINN hidden layer size from 1 to 15 (Klein-Gordon) or 9 (Burgers' and Allen-Cahn). The Final GPT-PINN is then trained on the generated test cases. 
