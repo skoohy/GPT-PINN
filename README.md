@@ -10,7 +10,7 @@
 *GPT-PINN Architecture*
 
 ## Talk / Presentation
-[go](https://www.youtube.com/watch?v=KWaWH7xeVEg){:target="_blank"}
+[YouTube Link](https://www.youtube.com/embed/KWaWH7xeVEg) or Click Thumbnail Below
 
 [![Watch the video](https://i.imgur.com/uiUaFR2.jpeg)](https://youtube.com/watch?v=KWaWH7xeVEg)
 
