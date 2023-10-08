@@ -52,12 +52,13 @@ Changing the number of neurons one may want to grow the GPT-PINN up to is very s
 ## Citation:
 Below you can find the Bibtex citation:
 ```
-@misc{chen2023gptpinn,
-      title={GPT-PINN: Generative Pre-Trained Physics-Informed Neural Networks toward non-intrusive Meta-learning of parametric PDEs}, 
-      author={Yanlai Chen and Shawn Koohy},
-      year={2023},
-      eprint={2303.14878},
-      archivePrefix={arXiv},
-      primaryClass={math.NA}
+@article{chen2024gpt,
+  title={GPT-PINN: Generative Pre-Trained Physics-Informed Neural Networks toward non-intrusive Meta-learning of parametric PDEs},
+  author={Chen, Yanlai and Koohy, Shawn},
+  journal={Finite Elements in Analysis and Design},
+  volume={228},
+  pages={104047},
+  year={2024},
+  publisher={Elsevier}
 }
 ```
