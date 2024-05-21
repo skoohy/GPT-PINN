@@ -8,6 +8,8 @@
 
 ## Paper Links: [arXiv](https://arxiv.org/abs/2303.14878) | [ResearchGate](https://www.researchgate.net/publication/369556903_GPT-PINN_Generative_Pre-Trained_Physics-Informed_Neural_Networks_toward_non-intrusive_Meta-learning_of_parametric_PDEs) | [ScienceDirect](https://www.sciencedirect.com/science/article/pii/S0168874X23001403)
 
+### See also TGPT-PINN: Nonlinear model reduction with transformed GPT-PINNs ([GitHub](https://github.com/DuktigYajie/TGPT-PINN))
+
 ![Image 1](fig/GPT-PINN.png)
 *GPT-PINN Architecture*
 
