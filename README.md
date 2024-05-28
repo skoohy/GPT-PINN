@@ -14,7 +14,7 @@
 *GPT-PINN Architecture*
 
 ## Talk and Presentations
-[DDPS Seminar at the Lawrence Livermore Lab](https://www.youtube.com/watch?v=ODA9Po4FVWA)
+[DDPS Seminar at the Lawrence Livermore Lab](https://www.youtube.com/embed/ODA9Po4FVWA?si=z2p9SkprfGZy4aeZ)
 
 [Brown CRUNCH Group Seminar](https://www.youtube.com/embed/wzHyOHV0ZeE?si=ehWaULam9PYJyFgB)
 
@@ -36,10 +36,10 @@ Matplotlib = 3.6.2
 Combinations of different package versions (recent ones) will most likely be able to run the code with little to no change.  
 
 ## GPU and CPU Support:
-The code was implemented with the intention of computation to be primarily preformed on the GPU. CPU computation can be done however, it will take much longer. 
+The code was implemented with the intention of computation to be primarily performed on the GPU. CPU computation can be done however, it will take much longer. 
 
 ## Usage:
-The Klein-Gordon, Allen-Cahn, and Burgers' equation files are currently available. Running `KG_main.py`, `B_main.py`, or `AC_main.py` (with the other files in the folder located in the respective directory) will begin the training of the full-PINN and GPT-PINN, growing the GPT-PINN hidden layer size from 1 to 15 (Klein-Gordon) or 9 (Burgers' and Allen-Cahn). The Final GPT-PINN is then test on various parameters and results of training and testing can visualized using the plotting files (`KG_plotting.py`, `B_plotting.py`, or `AC_plotting.py`). Various parameters within the PINN or GPT-PINN can easily be changed in the nain files. As a default setting, once the total number of neurons is achieved, the GPT-PINN is trained once more in order to find the largest loss obtained using the final number of neurons. This is done to give more information  about the final state of the GPT-PINN.
+The Klein-Gordon, Allen-Cahn, and Burgers' equation files are currently available. Running `KG_main.py`, `B_main.py`, or `AC_main.py` (with the other files in the folder located in the respective directory) will begin the training of the full-PINN and GPT-PINN, growing the GPT-PINN hidden layer size from 1 to 15 (Klein-Gordon) or 9 (Burgers' and Allen-Cahn). The Final GPT-PINN is then tested on various parameters and the results of training and testing can visualized using the plotting files (`KG_plotting.py`, `B_plotting.py`, or `AC_plotting.py`). Various parameters within the PINN or GPT-PINN can easily be changed in the main files. As a default setting, once the total number of neurons is achieved, the GPT-PINN is trained once more in order to find the largest loss obtained using the final number of neurons. This is done to give more information  about the final state of the GPT-PINN.
 
 ![Image 2](fig/KG_t1.png)
 
