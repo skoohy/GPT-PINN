@@ -14,8 +14,10 @@
 *GPT-PINN Architecture*
 
 ## Talk and Presentations
-[Pacific Northwest National Laboratory Talk](https://www.youtube.com/embed/KWaWH7xeVEg)
+[DDPS Seminar at the Lawrence Livermore Lab](https://www.youtube.com/watch?v=ODA9Po4FVWA)
+
 [Brown CRUNCH Group Seminar](https://www.youtube.com/embed/wzHyOHV0ZeE?si=ehWaULam9PYJyFgB)
+
 [Numerical Analysis of Galerkin ROMs Seminar](https://www.youtube.com/embed/KWaWH7xeVEg?si=OqtmATD2fmvMSRV1)
 
 ## Abstract: 
