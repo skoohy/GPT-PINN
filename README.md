@@ -4,7 +4,8 @@
 
 ### Yanlai Chen<sup>1</sup>, Shawn Koohy<sup>1</sup>
 
-### Update: As of 05/20/2024 the code is currently being further optimized for speed and readability  
+### Update (6/5/2024): The new Burgers' code has been updated, and the original code is still available in the Burgers folder 
+### Update (5/20/2024): The code is currently being further optimized for speed and readability  
 
 ## Paper Links: [arXiv](https://arxiv.org/abs/2303.14878) | [ResearchGate](https://www.researchgate.net/publication/369556903_GPT-PINN_Generative_Pre-Trained_Physics-Informed_Neural_Networks_toward_non-intrusive_Meta-learning_of_parametric_PDEs) | [ScienceDirect](https://www.sciencedirect.com/science/article/pii/S0168874X23001403)
 
