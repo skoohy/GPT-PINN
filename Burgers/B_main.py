@@ -53,14 +53,14 @@ b_train = np.linspace(0.005, 1, 129)
 #### PINN Attributes ####
 layers_pinn = np.array([2, 20, 20, 20, 20, 1])
 lr_pinn     = 0.005
-epochs_pinn = 60
+epochs_pinn = 60000
 tol         = 2e-5
 
 #### GPT-PINN Attributes ####
 train_final       = True
-number_of_neurons = 3
+number_of_neurons = 9
 lr_gpt            = 0.02
-epochs_gpt_train  = 20
+epochs_gpt_train  = 2000
 neurons           = np.zeros(number_of_neurons)
 neurons[0]        = np.median(b_train)
 #neurons[0]        = b_train[np.random.randint(low=0, high=len(b_train))]
