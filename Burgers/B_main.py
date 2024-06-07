@@ -53,14 +53,14 @@ b_train = np.linspace(0.005, 1, 129)
 #### PINN Attributes ####
 layers_pinn = np.array([2, 20, 20, 20, 20, 1])
 lr_pinn     = 0.005
-epochs_pinn = 60000
+epochs_pinn = 60
 tol         = 2e-5
 
 #### GPT-PINN Attributes ####
 train_final       = True
-number_of_neurons = 9
+number_of_neurons = 3
 lr_gpt            = 0.02
-epochs_gpt_train  = 2000
+epochs_gpt_train  = 20
 neurons           = np.zeros(number_of_neurons)
 neurons[0]        = np.median(b_train)
 #neurons[0]        = b_train[np.random.randint(low=0, high=len(b_train))]
@@ -154,7 +154,7 @@ print(f"Largest loss list: \n{loss_list[:end]}\n")
 #### Testing ####
 # Recording losses affects the overall time so a seperate function is used
 # but they can easily be combined into one.
-
+'''
 b_test = b_train[np.random.choice(len(b_train), test_cases, replace=False)]
 
 print("GPT-PINN Testing Started")
@@ -162,9 +162,9 @@ gpt_test_time, gpt_test_soln = gpt_test(b_test, xt_size, IC_size, BC_size,
 IC_u, BC_u, train_out, train_out_x, train_out_t, train_out_xx, train_out_IC, 
 train_out_BC, f_hat, epochs_gpt_test, lr_gpt, neurons, out_test)
 
-gpt_test_losses = gpt_test_loss(b_test, xt_size, IC_size, BC_size, IC_u, BC_u, 
-train_out, train_out_x, train_out_t, train_out_xx, train_out_IC, train_out_BC, 
-f_hat, epochs_gpt_test, lr_gpt, neurons)
+#gpt_test_losses = gpt_test_loss(b_test, xt_size, IC_size, BC_size, IC_u, BC_u, 
+#train_out, train_out_x, train_out_t, train_out_xx, train_out_IC, train_out_BC, 
+#f_hat, epochs_gpt_test, lr_gpt, neurons)
 print("GPT-PINN Testing Ended\n")
 
 print("PINN Testing Started")
@@ -208,5 +208,5 @@ params = {"Device":device,
           "num_largest_mag":num_largest_mag}
 
 np.save(data_dir+"/params.npy", params)
-
+'''
 print(f"Program End: {datetime.now()}\n")

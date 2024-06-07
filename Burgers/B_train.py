@@ -67,7 +67,8 @@ def offline_generation(nu_train, xt_size, IC_size, BC_size, IC_u, BC_u, out,
             c_reshaped = c.unsqueeze(1)
             loss = GPT_NN.loss(c_reshaped)
             
-        if (brk == False):
+        #if (brk == False):
+        if (loss > largest_loss):
             largest_case = nu
             largest_loss = loss
     return largest_loss, largest_case
