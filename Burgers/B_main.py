@@ -154,7 +154,7 @@ print(f"Largest loss list: \n{loss_list[:end]}\n")
 #### Testing ####
 # Recording losses affects the overall time so a seperate function is used
 # but they can easily be combined into one.
-'''
+
 b_test = b_train[np.random.choice(len(b_train), test_cases, replace=False)]
 
 print("GPT-PINN Testing Started")
@@ -162,9 +162,9 @@ gpt_test_time, gpt_test_soln = gpt_test(b_test, xt_size, IC_size, BC_size,
 IC_u, BC_u, train_out, train_out_x, train_out_t, train_out_xx, train_out_IC, 
 train_out_BC, f_hat, epochs_gpt_test, lr_gpt, neurons, out_test)
 
-#gpt_test_losses = gpt_test_loss(b_test, xt_size, IC_size, BC_size, IC_u, BC_u, 
-#train_out, train_out_x, train_out_t, train_out_xx, train_out_IC, train_out_BC, 
-#f_hat, epochs_gpt_test, lr_gpt, neurons)
+gpt_test_losses = gpt_test_loss(b_test, xt_size, IC_size, BC_size, IC_u, BC_u, 
+train_out, train_out_x, train_out_t, train_out_xx, train_out_IC, train_out_BC, 
+f_hat, epochs_gpt_test, lr_gpt, neurons)
 print("GPT-PINN Testing Ended\n")
 
 print("PINN Testing Started")
@@ -208,5 +208,5 @@ params = {"Device":device,
           "num_largest_mag":num_largest_mag}
 
 np.save(data_dir+"/params.npy", params)
-'''
+
 print(f"Program End: {datetime.now()}\n")
