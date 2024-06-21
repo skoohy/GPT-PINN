@@ -4,7 +4,7 @@
 
 ### Yanlai Chen<sup>1</sup>, Shawn Koohy<sup>1</sup>
 
-### Update (6/5/2024): The new Klein-Gordon code has been updated, and the original code is still available in the Klein-Gordon folder 
+### Update (6/21/2024): The new Klein-Gordon code has been updated, and the original code is still available in the Klein-Gordon folder 
 ### Update (6/5/2024): The new Burgers' code has been updated, and the original code is still available in the Burgers folder 
 ### Update (5/20/2024): The code is currently being further optimized for speed and readability  
 
