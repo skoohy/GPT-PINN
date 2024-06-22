@@ -126,7 +126,7 @@ for i, neuron in enumerate(neurons):
     f_hat, epochs_gpt_train, lr_gpt)
     t2 = time.time()
     generation_time[i] = (t2-t1)/60
-    print(f"Total time: {(t2-t1)/60} minutes") 
+    print(f"Generation time: {(t2-t1)/60} minutes") 
     
     ###########################################################################
     loss_list[i] = largest_loss
