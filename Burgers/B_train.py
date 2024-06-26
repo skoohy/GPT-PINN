@@ -46,7 +46,6 @@ def offline_generation(nu_train, xt_size, IC_size, BC_size, IC_u, BC_u, out,
                 c_initial[first]  = b / bottom 
                 c_initial[second] = a / bottom
         
-        brk = False
         Pt_nu_P_xx_term = Pt_nu_P_xx(nu, out_t, out_xx)      
         
         GD = grad_descent(nu, xt_size, IC_size, BC_size, IC_u, out, out_IC, 
@@ -60,14 +59,12 @@ def offline_generation(nu_train, xt_size, IC_size, BC_size, IC_u, BC_u, out,
         loss = GPT_NN.loss(c_reshaped)
         for j in range(1, epochs_gpt+1):
             if (loss < largest_loss):
-                brk = True
                 break
                 
             c = GD.update(c, c_reshaped)
             c_reshaped = c.unsqueeze(1)
             loss = GPT_NN.loss(c_reshaped)
             
-        #if (brk == False):
         if (loss > largest_loss):
             largest_case = nu
             largest_loss = loss
