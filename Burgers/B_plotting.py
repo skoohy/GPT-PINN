@@ -153,7 +153,7 @@ for i, param in enumerate(tests):
     ax.text(0.05, 0.95, f"L2 Error: {round(L2_error,4)}", 
             transform=ax.transAxes, fontsize=15, verticalalignment="top", 
             bbox=props)
-    ax.set_title(fr"Error GPT-PINN: $\nu={round(nu,4)},$")
+    ax.set_title(fr"Error GPT-PINN: $\nu={round(nu,4)}$")
     ax.set_xlabel("$t$")
     ax.set_ylabel("$x$")
     plt.show()
@@ -161,7 +161,7 @@ for i, param in enumerate(tests):
     fig, ax = plt.subplots()
     plot = ax.contourf(t, x, u_gpt, 100, cmap="rainbow")
     cbar = fig.colorbar(plot)
-    ax.set_title(fr"GPT-PINN: $\nu={round(nu,4)},$")
+    ax.set_title(fr"GPT-PINN: $\nu={round(nu,4)}$")
     ax.set_xlabel("$t$")
     ax.set_ylabel("$x$")
     plt.show()
@@ -169,7 +169,7 @@ for i, param in enumerate(tests):
     fig, ax = plt.subplots()
     plot = ax.contourf(t, x, u_pinn, 100, cmap="rainbow")
     cbar = fig.colorbar(plot)
-    ax.set_title(fr"PINN: $\nu={round(nu,4)},$")
+    ax.set_title(fr"PINN: $\nu={round(nu,4)}$")
     ax.set_xlabel("$t$")
     ax.set_ylabel("$x$")
     plt.show()
