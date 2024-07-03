@@ -21,13 +21,11 @@ gpt_test_losses  = np.loadtxt(path+"gpt_test_losses.dat")
 gpt_test_soln    = np.loadtxt(path+"gpt_test_soln.dat")
 gpt_test_time    = np.loadtxt(path+"gpt_test_time.dat")
  
-#pinn_test_losses = np.loadtxt(path+"pinn_test_losses.dat")
-#pinn_test_soln   = np.loadtxt(path+"pinn_test_soln.dat")
-#pinn_test_time   = np.loadtxt(path+"pinn_test_time.dat")
+pinn_test_losses = np.loadtxt(path+"pinn_test_losses.dat")
+pinn_test_soln   = np.loadtxt(path+"pinn_test_soln.dat")
+pinn_test_time   = np.loadtxt(path+"pinn_test_time.dat")
 
 ###############################################################################
-# Neurons
-
 # Neurons
 
 alpha = neurons[:,0]
@@ -90,7 +88,7 @@ plt.show()
 
 ###############################################################################
 # Total time
-'''
+
 avg_time_gpt = []
 for i in range(len(gpt_test_time)-1):
     avg_time_gpt.append(gpt_test_time[i+1]-gpt_test_time[i])
@@ -176,4 +174,3 @@ for i, param in enumerate(tests):
     ax.set_xlabel("$t$")
     ax.set_ylabel("$x$")
     plt.show()
-'''
