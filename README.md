@@ -27,13 +27,21 @@
 
 ## Requirements:
 ```
-Python     = 3.9.12
-NumPy      = 1.23.4
-PyTorch    = 1.11.0
+KG/B:
+Python     = 3.11.4
+NumPy      = 1.24.3
+PyTorch    = 2.1.2+cu121
+Matplotlib = 3.7.1
+
+AC:
+Python     = 3.9.12 
+NumPy      = 1.24.3
+PyTorch    = 2.3.1+cu118
 TensorFlow = 2.10.0
-Matplotlib = 3.6.2
+Matplotlib = 3.9.0
+
 ```
-Combinations of different package versions (recent ones) will most likely be able to run the code with little to no change.  
+Combinations of different package versions will likely run the code with little to no change.  
 
 ## GPU and CPU Support:
 The code was implemented with the intention of computation to be primarily performed on the GPU. CPU computation can be done however, it will take much longer. 
