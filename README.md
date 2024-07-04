@@ -39,7 +39,6 @@ NumPy      = 1.24.3
 PyTorch    = 2.3.1+cu118
 TensorFlow = 2.10.0
 Matplotlib = 3.9.0
-
 ```
 Combinations of different package versions will likely run the code with little to no change.  
 
