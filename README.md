@@ -10,7 +10,7 @@
 
 ### See also:
 - TGPT-PINN: Nonlinear model reduction with transformed GPT-PINNs ([GitHub](https://github.com/DuktigYajie/TGPT-PINN))
-- VGPT-PINN: Viscosity-enhanced Generative Pre-Trained Physics Informed Neural Networks for parameterized nonlinear conservation laws ([GitHub](https://github.com/DuktigYajie/TGPT-PINN))
+- VGPT-PINN: Viscosity-enhanced Generative Pre-Trained Physics Informed Neural Networks for parameterized nonlinear conservation laws ([GitHub](https://github.com/DuktigYajie/VGPT-PINN))
 
 ![Image 1](fig/GPT-PINN.png)
 *GPT-PINN Architecture*
