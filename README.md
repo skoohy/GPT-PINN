@@ -9,8 +9,10 @@
 ## Paper Links: [arXiv](https://arxiv.org/abs/2303.14878) | [ResearchGate](https://www.researchgate.net/publication/369556903_GPT-PINN_Generative_Pre-Trained_Physics-Informed_Neural_Networks_toward_non-intrusive_Meta-learning_of_parametric_PDEs) | [ScienceDirect](https://www.sciencedirect.com/science/article/pii/S0168874X23001403)
 
 ### See also:
-- TGPT-PINN: Nonlinear model reduction with transformed GPT-PINNs ([GitHub](https://github.com/DuktigYajie/TGPT-PINN))
-- VGPT-PINN: Viscosity-enhanced Generative Pre-Trained Physics Informed Neural Networks for parameterized nonlinear conservation laws ([GitHub](https://github.com/DuktigYajie/VGPT-PINN))
+- TGPT-PINN: Nonlinear model reduction with transformed GPT-PINNs ([GitHub](https://github.com/DuktigYajie/TGPT-PINN), [arXiv](https://arxiv.org/abs/2403.03459))
+- EGPT-PINN: Entropy-enhanced Generative Pre-Trained Physics Informed Neural Networks for parameterized nonlinear conservation laws ([GitHub](https://github.com/DuktigYajie/VGPT-PINN), [arXiv](https://arxiv.org/abs/2501.01587v2))
+- S<sup>2</sup>GPT-PINNs: Sparse and Small models for PDEs ([GitHub](https://github.com/DuktigYajie/S2GPT-PINN), [arXiv](https://arxiv.org/abs/2506.15687))
+
 
 ![Image 1](fig/GPT-PINN.png)
 *GPT-PINN Architecture*
